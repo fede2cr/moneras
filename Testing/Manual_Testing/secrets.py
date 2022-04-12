@@ -1,6 +1,6 @@
-```
+'''
 File for configuring azure password for moneras project
-```
+'''
 TRAINING_ENDPOINT = "https://copy-paste-endpoint.cognitiveservices.azure.com/"
 TRAINING_KEY = "copy-paste-key"
 PREDICTION_ENDPOINT = "https://copy-paste-prediction-endpoint.cognitiveservices.azure.com/"
