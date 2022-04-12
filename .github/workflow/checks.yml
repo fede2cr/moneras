@@ -1,0 +1,22 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+  release:
+    types: [published]
+  check_suite:
+    type: [rerequested]
+
+jobs:
+  checks:
+    runs-on: ubuntu-20.04
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+        submodules: recursive
+    - name: Pylint checks
+      run: |
+        sudo pip3 install pylint
+        pylint --rcfile=.pylintrc Setup/Ai_Training/*.py Testing/Manual_Testing/*.py 
