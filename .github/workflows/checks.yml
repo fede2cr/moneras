@@ -18,5 +18,6 @@ jobs:
         submodules: recursive
     - name: Pylint checks
       run: |
+        sudo pip3 install pyinaturalist azure-cognitiveservices-vision-customvision
         sudo pip3 install pylint
         pylint --rcfile=.pylintrc Setup/Ai_Training/*.py Testing/Manual_Testing/*.py 
