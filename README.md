@@ -12,7 +12,7 @@ There are several platform of cameras that have internet access via Wifi. When t
 
 In the configuration interface for your group of cameras, you decide which species are important to you, and if they get detected, you will receive a notification with the cropped image with only the detection part, and a link where you can download the full image. This is important, for let's say, an feline researcher that only gets a couple of chances a month to follow the track of it's animal of interest.
 
-## How to train the AI
+## How to Setup
 
 It is better if you have images from the same cameras from this project, which you can also use to re-train the AI model and improve it. But to start with a working system, this scripts use [INaturalist]() images that have a license that permits their re-use.
 
@@ -39,6 +39,22 @@ python3 inat_image_downloader.py
 The images are downloaded with each species in a separate folder. Repeat the edit process to add more users, or more species. Then, for example with Customvision.ai, you only need to drag and drop the images, and re-train the model.
 
 It is a good idea to keep a couple of the images out of the model training set, so that you can then test the accuracy of the model, and see how well it predicts the species of the images.
+
+# Computer vision model training
+
+Before pluggin the cameras, it's a good idea to test the AI model
+
+## How to test
+
+Copy a couple of "new" images from the species of interest. It's better if it's from the same type of cameras you are planning to use, but they can also be iNaturalist images as well. Just make sure that this images are "new" to the AI, in the sense that it wasn't trained with them.
+
+This code is heavily based on [this tutorial](https://docs.microsoft.com/en-us/azure/cognitive-services/custom-vision-service/quickstarts/image-classification?tabs=visual-studio&pivots=programming-language-python), so if you want to learn this topic in depth.
+
+### Setup
+
+```
+pip install azure-cognitiveservices-vision-customvision
+```
 
 ## AI Platforms
 
