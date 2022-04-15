@@ -29,23 +29,30 @@ def download_species(species, inat_user):
         if obs["taxon"]["name"] == species:
             for i in range(0, len(obs["observation_photos"])):
                 if obs["observation_photos"][i]["photo"]["license_code"] == "cc-by":
-                    # print(obs["observation_photos"][i]["photo"])
                     orig_url = (
                         "https://inaturalist-open-data.s3.amazonaws.com/photos/"
                         + str(obs["observation_photos"][i]["photo"]["id"])
                         + "/original.jpeg"
                     )
-                    print("Downloading: ", orig_url)
                     image = requests.get(orig_url, allow_redirects=True)
-                    with open(
+                    image_filename = (
                         img_dir
                         + "/"
                         + str(obs["observation_photos"][i]["photo"]["id"])
-                        + ".jpeg",
-                        "wb",
-                    ) as image_file:
-                        image_file.write(image.content)
-            print("=" * 91)
+                        + ".jpeg"
+                    )
+                    if_exist = os.path.exists(image_filename)
+                    if not if_exist:
+                        print("Downloading: ", orig_url)
+                        with open(
+                            img_dir
+                            + "/"
+                            + str(obs["observation_photos"][i]["photo"]["id"])
+                            + ".jpeg",
+                            "wb",
+                        ) as image_file:
+                            image_file.write(image.content)
+                        print("=" * 91)
 
 
 for inat_species in conf.SPECIES:
