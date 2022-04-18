@@ -40,6 +40,21 @@ The images are downloaded with each species in a separate folder. Repeat the edi
 
 It is a good idea to keep a couple of the images out of the model training set, so that you can then test the accuracy of the model, and see how well it predicts the species of the images.
 
+### File deduplication or ``ErrorImageFormat``
+
+This is an optional step, but the following step, where you upload the images to Microsoft's Azure, you could get an error about duplicate file. This is because in iNaturalist, some users upload images twice or more if it includes two individuals or two species that need to be added as an observation. If this is happening for your training data, run:
+
+```
+fdupes -fdNr .
+```
+
+If you get an error like ``ErrorImageFormat``, it might be that you have extra data on this folders other than images. If so, try to find which file is it, and run something similar to:
+
+```
+# This commands removes junk files from MacOS X's Finder
+find . -name .DS_Store -exec rm -v {} \;
+```
+
 # Computer vision model training
 
 Before pluggin the cameras, it's a good idea to test the AI model

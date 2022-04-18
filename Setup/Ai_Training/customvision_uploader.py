@@ -17,8 +17,6 @@ from azure.cognitiveservices.vision.customvision.prediction import (
 )
 from azure.cognitiveservices.vision.customvision.training.models import (
     ImageFileCreateEntry,
-)
-from azure.cognitiveservices.vision.customvision.training.models import (
     ImageFileCreateBatch,
 )
 from msrest.authentication import ApiKeyCredentials
@@ -50,11 +48,11 @@ def tag_species(species):
     base_image_location = os.path.join(os.path.dirname(__file__), conf.DIR_PATH)
 
     print("Adding images...")
-    image_list = []
 
     file_list = next(os.walk(base_image_location + species), (None, None, []))[2]
 
     for file_name in file_list:
+        image_list = []
         with open(
             os.path.join(base_image_location, species, file_name), "rb"
         ) as tag_image_contents:
@@ -63,15 +61,24 @@ def tag_species(species):
                     name=file_name, contents=tag_image_contents.read(), tag_ids=[tag.id]
                 )
             )
+            upload_result = trainer.create_images_from_files(
+                project.id, ImageFileCreateBatch(images=image_list)
+            )
+            if not upload_result.is_batch_successful:
+                print("Image batch upload failed.")
+                for image in upload_result.images:
+                    print("Image status: ", image.status)
+                sys.exit(-1)
 
-    upload_result = trainer.create_images_from_files(
-        project.id, ImageFileCreateBatch(images=image_list)
-    )
-    if not upload_result.is_batch_successful:
-        print("Image batch upload failed.")
-        for image in upload_result.images:
-            print("Image status: ", image.status)
-        sys.exit(-1)
+
+#    upload_result = trainer.create_images_from_files(
+#        project.id, ImageFileCreateBatch(images=image_list)
+#    )
+#    if not upload_result.is_batch_successful:
+#        print("Image batch upload failed.")
+#        for image in upload_result.images:
+#            print("Image status: ", image.status)
+#        sys.exit(-1)
 
 
 for inat_species in conf.SPECIES:
